@@ -1,0 +1,96 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\node\NodeInterface;
+
+
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for node entities.
+ */
+function mymodule_node_presave(NodeInterface $node) {
+	
+    if ($node->bundle() == 'eventos') {
+      
+	   //ksm($node->field_endereco->getValue());
+	   //ksm($node->field_rota->getValue());
+       //ksm($node->field_mapa->getValue());
+	   //ksm($node->field_endereco->getValue());
+	   //dpm($node->[field_endereco]);
+	   $address_line1 = '';
+	   $address_line2 = '';
+	  
+	   $address_line1         = str_replace(" ","+",trim($node->field_endereco->address_line1));
+	   $address_line2         = str_replace(" ","+",trim($node->field_endereco->address_line2));
+	   $locality              = str_replace(" ","+",trim($node->field_endereco->locality));
+	   $administrative_area   = str_replace(" ","+",trim($node->field_endereco->administrative_area));                
+	   $country_code          = str_replace(" ","+",trim($node->field_endereco->country_code));
+	   $postal_code           = str_replace(" ","+",trim($node->field_endereco->postal_code));
+	  
+	 	  
+	   $endereco = $address_line1 ;
+
+	   if ($address_line2 != '') {
+		   $endereco = $endereco ."+". $address_line2 ;   
+	   }
+	   
+	   $endereco = $endereco .",". $locality ."-". $administrative_area ."-". $country_code .",". $postal_code;
+
+
+	   If ($address_line1) {
+			$node->field_rota->uri = 'https://www.google.com/maps/dir//' . $endereco;
+			$node->field_rota->text ="Obter rota para [node:field_local_do_evento]";
+       }
+	   
+	   
+       
+	   //Move regra importada para rrule da data	
+       // SOmente ativar quando importar do site antigo	   
+	   //$node->field_data->rrule = $node->field_regra_de_repeticao->value;
+       //ksm($node->field_rota->getValue());
+	   
+	   //ksm($node->field_endereco->getvalue());
+	   //ksm($node->field_endereco->country_code);
+	   //ksm($node->field_endereco->administrative_area);
+	   //ksm($node->field_endereco->locality);
+	   
+	   // Mover País, estado e cidade.	  
+	   
+	   //$country_code = $node->field_endereco->getvalue();
+       //$country = \Drupal::service('country_manager')->getList()[$country_code]->__toString();
+
+       //ksm(country);
+	   //For Country List
+	    $countries = \Drupal\Core\Locale\CountryManager::getStandardList();
+	    foreach ($countries as $key => $value) {
+		   $countries[$key] = $value->__toString();
+		 }
+	   //ksm($countries[$node->field_endereco->country_code]);
+	   
+	   //State or Administrative_area list
+	   
+	  
+
+	   $node->field_pais = $countries[$node->field_endereco->country_code];
+	   $node->field_estado = $node->field_endereco->administrative_area;
+	   $node->field_cidade = $node->field_endereco->locality;
+	   
+    } 
+		
+}
+
+/**
+ * Implements hook_help().
+ * route_name= pagina de helpa ser exibida
+ */
+function mymodule_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.mymodule':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('My First Custom Module é exatamente isto que o nome do módulo diz.') . '</p>';
+      $output .= '<p>' . t('Este é o meu primeiro módulo para testar hooks') . '</p>';
+      $output .= '<h3>' . t('More Information') . '</h3>';
+      $output .= '<p>' . t('Não tem mais informação...rs') . '</p>';
+      return $output;
+  }
+}

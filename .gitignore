@@ -1,0 +1,21 @@
+# gitignore template for Drupal 8 projects
+#
+# earlier versions of Drupal are tracked in `community/PHP/`
+
+# Ignore configuration files that may contain sensitive information
+/sites/*/*settings*.php
+/sites/*/*services*.yml
+/sites/ondetemforro*/*
+/sites/default/settings.php
+/sites/default/files/*.*
+core_compare
+copia
+*.sql
+*.bat
+
+# Ignore paths that may contain user-generated content
+#/sites/*/files
+
+# Ignore testing related files
+/sites/simpletest
+

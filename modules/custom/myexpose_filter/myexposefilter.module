@@ -1,0 +1,117 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface; 
+use Drupal\Core\Datetime\DrupalDateTime;
+
+
+/**
+ *Implementando hook_views_expposed_form_alter
+ * Altera os campos País, Estado e cidade para Combobox
+ */
+
+function myexposefilter_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+	
+	
+  if ($form['#id'] == "views-exposed-form-eventos-page-1") {
+
+	  //Obter data do filtro
+	  $data= $form['field_data_value']['#default_value'];
+
+	  //Preenche a data inicial com a data de hoje;
+	  if ($data == 'today') {
+
+		$data = date("Y-m-d", strtotime(now));
+		$form['field_data_value']['#default_value'] = $data;
+	  }
+	  //ksm($form);
+	  for($i =1; $i < 4; $i++){
+
+		switch ($i){
+		   case 1:
+			  $field_id = 'field_pais';   //please change the field machine name here
+			  break;
+		   case 2:
+			  $field_id = 'field_estado';   //please change the field machine name here
+			  break;
+		   case 3:
+			  $field_id = 'field_cidade';   //please change the field machine name here
+			  break;
+		 } 
+		 
+		 
+		  // Only alter forms with the necessary field
+			  if (isset($form[$field_id .'_value'])) {
+				
+				// Build a query to get all node ids having the specified field
+				$query = \Drupal::entityQuery('node')
+					->condition('status', 1) //published or not
+				    ->condition('type', 'eventos'); //content type
+					//->pager(10); //specify results to return
+					$nids = $query->execute();
+			  				
+		
+				// Preenche os combos do filtro de pesquisa com a palavra Todos
+				$options = array('' => 'Todos');
+				$form[$field_id .'_value']['#type'] = 'select';
+				$form[$field_id .'_value']['#options'] = $options;
+				$form[$field_id .'_value']['#size'] = 1;
+			    
+
+			  }
+         
+			// Carrega todos os paises, estados e cidades no combobox
+			foreach($nids as $nid) {
+			    $node = \Drupal\node\Entity\Node::load($nid); 
+				
+				switch ($i){
+					 case 1:
+						$value = $node->field_pais->value;    //Value of dropdown, you may want to change here also.
+						// Ver https://www.zyxware.com/articles/5482/drupal-8-article-about-how-to-configure-variables-in-drupal-8
+						//tentar variable_set
+						//ver google search : drupal 8 create array in jquery and pass parameter
+						$localidade[] = array
+									( 'pais'   => $node->field_pais->value,
+                 					  'estado' => $node->field_estado->value ,
+									  'cidade' => $node->field_cidade->value,
+									  );
+
+                      break;
+						
+					 case 2:
+						$value = $node->field_estado->value;    //Value of dropdown, you may want to change here also.
+						break;
+					 case 3:
+						$value = $node->field_cidade->value;    //Value of dropdown, you may want to change here also.
+						break;
+				   } 
+                   
+				  if ($value) {
+					 // Preenche os combos do filtro de pesquisa apenas se tem conteúdo
+					 // evitando preencher estado vazio para o país que não tem estado.
+				     $options[$value] = $value;
+					 $form[$field_id .'_value']['#options'] = $options;
+				  }
+
+			} 
+
+	  }
+		
+		// Ordena as colunas por país, estado, cidade.
+		foreach ($localidade as $key => $row) {
+			$pais[$key]  = $row['pais'];
+			$estado[$key] = $row['estado'];
+			$cidade[$key] = $row['cidade'];
+		}
+
+        //ksm($localidade);
+
+		array_multisort($pais, SORT_ASC, $estado, SORT_ASC, $estado, SORT_ASC, $localidade);
+		//ksm($localidade);
+	    //drupal_add_js(array('localidade' => $localidade), array('type' => 'setting'));
+		//$form['#localidade'] = $localidade;
+       
+	   $form['#attached']['drupalSettings']['localidade'] = $localidade;
+       
+	   //ksm($form);
+	} 
+}

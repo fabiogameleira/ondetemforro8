@@ -1,0 +1,45 @@
+/**
+ * If using a CSS pre-processor, tell it to overwrite this file. If not, place
+ * your custom CSS modifications here.
+ */
+
+
+.espaco-trio {
+	margin-top: 1em;
+    margin-bottom: 1em;
+    border: 1px solid #c7eac7;
+    border-radius: 3px;
+    background-color: #fcfcfa;
+	padding: 0;
+}
+
+
+
+.espaco-trio .espacotrio-videos .field--items .field--item {
+   float: left;	
+   margin: 10px;
+}
+
+.espaco-trio .layout__region--first .field--items .field--item {
+   padding-left: 25px;
+}
+.espaco-trio h2 {
+	font-size: 1.1em;
+	padding-left:15px;
+}
+
+.espaco-trio h3 {
+	font-size: 1em;
+}
+
+/*
+.field--label {
+    font-weight: bold;
+	border: 0;
+    margin-left: 0px;
+    padding-left: 35px;
+    line-height: 30px;
+}
+*/
+
+

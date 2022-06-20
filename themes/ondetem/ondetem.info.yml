@@ -1,0 +1,34 @@
+core: 8.x
+core_version_requirement: ^8 || ^9
+type: theme
+base theme: bootstrap
+
+name: ondetem
+description: 'A Drupal Bootstrap 3 based sub-theme.'
+package: 'Custom'
+
+regions:
+  top: 'top'   
+  logotipo: 'Logotipo'  
+  navigation: 'Navigation'
+  social: 'Social'
+  navigation_collapsible: 'Navigation (Collapsible)'
+  objetivo: 'Objetivo do site'
+  header: 'Top Bar'
+  highlighted: 'Highlighted'
+  help: 'Help'
+  content: 'Content'
+  above_content: 'Above Content'
+  sidebar_first: 'Primary'
+  sidebar_second: 'Secondary'
+  footer: 'Footer'
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+
+libraries:
+  - ondetem/global-styling
+  - ondetem/global-scripts
+
+libraries-extend:
+  bootstrap/framework:
+    - ondetem/framework

@@ -1,0 +1,57 @@
+/**
+ * If using a CSS pre-processor, tell it to overwrite this file. If not, place
+ * your custom CSS modifications here.
+ */
+
+body {
+    background: #f4f4f4;
+	color: #666666;
+}
+
+#top {
+	background-color: #5f643a;
+}
+
+#top ul.menu.nav li a {
+    color: #fff;
+}
+
+.main-container {
+	background-color: #ffffff;
+}
+
+.navbar-default  {
+    background-color: #ffffff;
+}
+
+ul.menu.menu--main.nav.navbar-nav > li > a.is-active,
+ul.menu.menu--main.nav.navbar-nav > li > a:hover, 
+ul.menu.menu--main.nav.navbar-nav > li > a:focus {
+    color: #212121;
+    background-color: #eff7b6;
+}
+
+#block-objetivo-do-site  p {
+    color: #5f643a;
+}
+
+.page-header {
+    color: #5f643a;
+}
+
+.breadcrumb {
+    background-color: unset;
+}
+
+
+@media (max-width: 480px) {
+	.navbar-menu {
+		background-color: #fff;
+		border-top: 2px solid #5f643a;
+	}
+}
+
+.footer {
+    background-color: #336666;
+    color: #ffffff;
+}

@@ -1,0 +1,8 @@
+name: My First Custom Module
+description: 'Meu primeiro módulo'
+package: Custom
+core: 8.x
+core_version_requirement: ^8 || ^9
+project: 'my_first_custom_module'
+type: module
+
